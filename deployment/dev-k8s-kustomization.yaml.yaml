@@ -65,3 +65,24 @@ spec:
     namespace: flux-system
   wait: true
 
+---
+# Grafana Dashboards
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: dev-grafana-dashboards
+  namespace: flux-system
+spec:
+  interval: 1m
+  path: "./nortura-infra/monitoring/dashboards"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  dependsOn:
+    - name: dev-prometheus
+    - name: dev-monitoring-extras
+
+

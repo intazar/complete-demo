@@ -11,20 +11,50 @@ data:
       "annotations": {
         "list": []
       },
+      "tags": ["Nortura"], 
+      "title": "NGINX Dashboard Intazar",
+      "uid": "nginx-dashboard",
+      "schemaVersion": 16,
+      "version": 2,
       "panels": [
         {
           "type": "graph",
-          "title": "NGINX Requests",
+          "title": "CPU Utilization",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "100 - (avg by(instance)(rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+              "legendFormat": "{{ instance }}"
+            }
+          ],
+          "lines": true,
+          "linewidth": 1
+        },
+        {
+          "type": "graph",
+          "title": "Memory Usage",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+              "legendFormat": "{{ instance }}"
+            }
+          ],
+          "lines": true,
+          "linewidth": 1
+        },
+        {
+          "type": "graph",
+          "title": "NGINX Requests Rate",
+          "datasource": "Prometheus",
           "targets": [
             {
               "expr": "rate(nginx_http_requests_total[5m])",
               "legendFormat": "{{ handler }}"
             }
-          ]
+          ],
+          "lines": true,
+          "linewidth": 1
         }
-      ],
-      "title": "NGINX Dashboard Intazar",
-      "uid": "nginx-dashboard",
-      "schemaVersion": 16,
-      "version": 1
+      ]
     }
